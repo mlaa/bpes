@@ -202,7 +202,11 @@ function bpes_search( $args = array() ) {
  * @return mixed
  */
 function bpes_request( $args = array() ) {
-	$ep = 'http://localhost:9200';
+	if ( defined( 'EP_HOST' ) && EP_HOST ) {
+		$ep = EP_HOST . ':9200';
+	} else {
+		$ep = 'http://localhost:9200';
+	}
 
 	// Build request URL
 	$r_url = trailingslashit( $ep );

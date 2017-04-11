@@ -76,12 +76,31 @@ function bpes_index( $args = array() ) {
 	$document_builder = new $registered_types[ $type ]['document_builder'];
 
 	if ( $r['delete_existing'] ) {
-		bpes_request( array(
+
+		// TODO move to own fn
+		$bpes_filter_ep_delete_post_request_args = function( $request_args ) use ( $document_builder ) {
+			$request_args = array_merge( $request_args, [
+				'index'  => 'bp',
+				'type'   => $document_builder->get_type(),
+			] );
+			var_dump( $request_args );
+		};
+		add_filter( 'ep_delete_post_request_args', $bpes_filter_ep_delete_post_request_args );
+
+		$delete_response = ep_delete_post( $document_builder->get_id( $r ) );
+
+		// TODO better way to handle this?
+		remove_filter( 'ep_delete_post_request_args', $bpes_filter_ep_delete_post_request_args );
+
+		/*
+		$delete_response = bpes_request( array(
 			'method' => 'DELETE',
 			'index'  => 'bp',
 			'type'   => $document_builder->get_type(),
 			'id'     => $document_builder->get_id( $r ),
 		) );
+		 */
+		var_dump( $delete_response );die;
 	}
 
 	$uri_paths = array(

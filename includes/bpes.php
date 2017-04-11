@@ -203,7 +203,7 @@ function bpes_search( $args = array() ) {
  */
 function bpes_request( $args = array() ) {
 	if ( defined( 'EP_HOST' ) && EP_HOST ) {
-		$ep = EP_HOST . ':9200';
+		$ep = EP_HOST;
 	} else {
 		$ep = 'http://localhost:9200';
 	}
